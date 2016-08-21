@@ -30,11 +30,8 @@ import dotenv from 'dotenv';
 const server = global.server = express();
 
 // Env setup
-dotenv.config({ path:__dirname + '/../.env' });
-console.log("dirname " + __dirname);
-
-// console.log(process.env);
-//
+var envPath = path.join(__dirname, '..', ".env");
+dotenv.config({ path:envPath });
 
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
@@ -57,11 +54,20 @@ server.use(passport.initialize());
 server.use(passport.session()); // persistent login sessions
 
 // Passport Set up
+// Passport Set serializers
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
+
 console.log("pocket key " + process.env.POCKET_CONSUMER_KEY);
 
 var pocketStrategy = new PocketStrategy({
   consumerKey: process.env.POCKET_CONSUMER_KEY,
-  callbackURL: "http://127.0.0.1:3001/auth/pocket/callback"
+  callbackURL: "http://localhost:3001/auth/pocket/callback"
 }, function (username, accessToken, done) {
   process.nextTick(function () {
     return done(null, {

@@ -138,11 +138,8 @@ module.exports =
   var server = global.server = (0, _express2.default)();
   
   // Env setup
-  _dotenv2.default.config({ path: __dirname + '/../.env' });
-  console.log("dirname " + __dirname);
-  
-  // console.log(process.env);
-  //
+  var envPath = _path2.default.join(__dirname, '..', ".env");
+  _dotenv2.default.config({ path: envPath });
   
   //
   // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
@@ -165,11 +162,20 @@ module.exports =
   server.use(_passport2.default.session()); // persistent login sessions
   
   // Passport Set up
+  // Passport Set serializers
+  _passport2.default.serializeUser(function (user, done) {
+    done(null, user);
+  });
+  
+  _passport2.default.deserializeUser(function (obj, done) {
+    done(null, obj);
+  });
+  
   console.log("pocket key " + process.env.POCKET_CONSUMER_KEY);
   
   var pocketStrategy = new _passportPocket2.default({
     consumerKey: process.env.POCKET_CONSUMER_KEY,
-    callbackURL: "http://127.0.0.1:3001/auth/pocket/callback"
+    callbackURL: "http://localhost:3001/auth/pocket/callback"
   }, function (username, accessToken, done) {
     process.nextTick(function () {
       return done(null, {
