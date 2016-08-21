@@ -25,8 +25,13 @@ import assets from './assets';
 import { port, auth, analytics } from './config';
 
 import PocketStrategy from 'passport-pocket';
+import dotenv from 'dotenv';
 
 const server = global.server = express();
+
+// Env setup
+var envPath = path.join(__dirname, '..', ".env");
+dotenv.config({ path:envPath });
 
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
@@ -48,17 +53,26 @@ server.use(session({ secret: 'SECRET' })); // session secret
 server.use(passport.initialize());
 server.use(passport.session()); // persistent login sessions
 
-var POCKET_CONSUMER_KEY = "Pocket consumer key";
-
 // Passport Set up
+// Passport Set serializers
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
+
+console.log("pocket key " + process.env.POCKET_CONSUMER_KEY);
+
 var pocketStrategy = new PocketStrategy({
-  consumerKey: POCKET_CONSUMER_KEY,
-  callbackURL: "http://127.0.0.1:3001/auth/pocket/callback"
+  consumerKey: process.env.POCKET_CONSUMER_KEY,
+  callbackURL: "http://localhost:3001/auth/pocket/callback"
 }, function (username, accessToken, done) {
   process.nextTick(function () {
     return done(null, {
       username: username,
-      accessToken: accessToken
+      accessToken: accessToken,
     });
   });
 }
