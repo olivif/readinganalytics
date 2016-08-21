@@ -18,10 +18,13 @@ import jwt from 'jsonwebtoken';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import passport from './core/passport';
+import session from 'express-session';
 import schema from './data/schema';
 import Router from './routes';
 import assets from './assets';
 import { port, auth, analytics } from './config';
+
+import PocketStrategy from 'passport-pocket';
 
 const server = global.server = express();
 
@@ -40,6 +43,41 @@ server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 
+// required for passport
+server.use(session({ secret: 'SECRET' })); // session secret
+server.use(passport.initialize());
+server.use(passport.session()); // persistent login sessions
+
+var POCKET_CONSUMER_KEY = "Pocket consumer key";
+
+// Passport Set up
+var pocketStrategy = new PocketStrategy({
+  consumerKey: POCKET_CONSUMER_KEY,
+  callbackURL: "http://127.0.0.1:3001/auth/pocket/callback"
+}, function (username, accessToken, done) {
+  process.nextTick(function () {
+    return done(null, {
+      username: username,
+      accessToken: accessToken
+    });
+  });
+}
+);
+
+passport.use(pocketStrategy);
+
+// Passport routes for express
+server.get('/auth/pocket', passport.authenticate('pocket'),
+  function (req, res) {
+    // The request will be redirected to Pocket for authentication, so this
+    // function will not be called.
+  });
+
+server.get('/auth/pocket/callback', passport.authenticate('pocket', { failureRedirect: '/login' }),
+  function (req, res) {
+    res.redirect('/');
+  });
+
 //
 // Authentication
 // -----------------------------------------------------------------------------
@@ -50,7 +88,6 @@ server.use(expressJwt({
   getToken: req => req.cookies.id_token,
   /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
 }));
-server.use(passport.initialize());
 
 server.get('/login/facebook',
   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })

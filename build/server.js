@@ -98,6 +98,10 @@ module.exports =
   
   var _passport2 = _interopRequireDefault(_passport);
   
+  var _expressSession = __webpack_require__(127);
+  
+  var _expressSession2 = _interopRequireDefault(_expressSession);
+  
   var _schema = __webpack_require__(43);
   
   var _schema2 = _interopRequireDefault(_schema);
@@ -111,6 +115,10 @@ module.exports =
   var _assets2 = _interopRequireDefault(_assets);
   
   var _config = __webpack_require__(13);
+  
+  var _passportPocket = __webpack_require__(126);
+  
+  var _passportPocket2 = _interopRequireDefault(_passportPocket);
   
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
   
@@ -140,6 +148,38 @@ module.exports =
   server.use(_bodyParser2.default.urlencoded({ extended: true }));
   server.use(_bodyParser2.default.json());
   
+  // required for passport
+  server.use((0, _expressSession2.default)({ secret: 'SECRET' })); // session secret
+  server.use(_passport2.default.initialize());
+  server.use(_passport2.default.session()); // persistent login sessions
+  
+  var POCKET_CONSUMER_KEY = "Pocket consumer key";
+  
+  // Passport Set up
+  var pocketStrategy = new _passportPocket2.default({
+    consumerKey: POCKET_CONSUMER_KEY,
+    callbackURL: "http://127.0.0.1:3001/auth/pocket/callback"
+  }, function (username, accessToken, done) {
+    process.nextTick(function () {
+      return done(null, {
+        username: username,
+        accessToken: accessToken
+      });
+    });
+  });
+  
+  _passport2.default.use(pocketStrategy);
+  
+  // Passport routes for express
+  server.get('/auth/pocket', _passport2.default.authenticate('pocket'), function (req, res) {
+    // The request will be redirected to Pocket for authentication, so this
+    // function will not be called.
+  });
+  
+  server.get('/auth/pocket/callback', _passport2.default.authenticate('pocket', { failureRedirect: '/login' }), function (req, res) {
+    res.redirect('/');
+  });
+  
   //
   // Authentication
   // -----------------------------------------------------------------------------
@@ -151,7 +191,6 @@ module.exports =
       return req.cookies.id_token;
     }
   }));
-  server.use(_passport2.default.initialize());
   
   server.get('/login/facebook', _passport2.default.authenticate('facebook', { scope: ['email', 'user_location'], session: false }));
   server.get('/login/facebook/return', _passport2.default.authenticate('facebook', { failureRedirect: '/login', session: false }), function (req, res) {
@@ -6365,6 +6404,18 @@ module.exports =
 /***/ function(module, exports) {
 
   module.exports = require("react-dom/server");
+
+/***/ },
+/* 126 */
+/***/ function(module, exports) {
+
+  module.exports = require("passport-pocket");
+
+/***/ },
+/* 127 */
+/***/ function(module, exports) {
+
+  module.exports = require("express-session");
 
 /***/ }
 /******/ ]);
