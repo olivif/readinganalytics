@@ -62,7 +62,7 @@ module.exports =
   
   var _path2 = _interopRequireDefault(_path);
   
-  var _express = __webpack_require__(109);
+  var _express = __webpack_require__(110);
   
   var _express2 = _interopRequireDefault(_express);
   
@@ -74,23 +74,23 @@ module.exports =
   
   var _bodyParser2 = _interopRequireDefault(_bodyParser);
   
-  var _expressJwt = __webpack_require__(111);
+  var _expressJwt = __webpack_require__(112);
   
   var _expressJwt2 = _interopRequireDefault(_expressJwt);
   
-  var _expressGraphql = __webpack_require__(110);
+  var _expressGraphql = __webpack_require__(111);
   
   var _expressGraphql2 = _interopRequireDefault(_expressGraphql);
   
-  var _jsonwebtoken = __webpack_require__(118);
+  var _jsonwebtoken = __webpack_require__(120);
   
   var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
   
-  var _server = __webpack_require__(125);
+  var _server = __webpack_require__(128);
   
   var _server2 = _interopRequireDefault(_server);
   
-  var _prettyError = __webpack_require__(124);
+  var _prettyError = __webpack_require__(127);
   
   var _prettyError2 = _interopRequireDefault(_prettyError);
   
@@ -98,7 +98,7 @@ module.exports =
   
   var _passport2 = _interopRequireDefault(_passport);
   
-  var _expressSession = __webpack_require__(127);
+  var _expressSession = __webpack_require__(113);
   
   var _expressSession2 = _interopRequireDefault(_expressSession);
   
@@ -116,18 +116,16 @@ module.exports =
   
   var _config = __webpack_require__(13);
   
-  var _passportPocket = __webpack_require__(126);
+  var _passportPocket = __webpack_require__(125);
   
   var _passportPocket2 = _interopRequireDefault(_passportPocket);
   
+  var _dotenv = __webpack_require__(109);
+  
+  var _dotenv2 = _interopRequireDefault(_dotenv);
+  
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
   
-  var server = global.server = (0, _express2.default)();
-  
-  //
-  // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
-  // user agent is not known.
-  // -----------------------------------------------------------------------------
   /**
    * React Starter Kit (https://www.reactstarterkit.com/)
    *
@@ -137,6 +135,19 @@ module.exports =
    * LICENSE.txt file in the root directory of this source tree.
    */
   
+  var server = global.server = (0, _express2.default)();
+  
+  // Env setup
+  _dotenv2.default.config({ path: __dirname + '/../.env' });
+  console.log("dirname " + __dirname);
+  
+  // console.log(process.env);
+  //
+  
+  //
+  // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
+  // user agent is not known.
+  // -----------------------------------------------------------------------------
   global.navigator = global.navigator || {};
   global.navigator.userAgent = global.navigator.userAgent || 'all';
   
@@ -153,11 +164,11 @@ module.exports =
   server.use(_passport2.default.initialize());
   server.use(_passport2.default.session()); // persistent login sessions
   
-  var POCKET_CONSUMER_KEY = "Pocket consumer key";
-  
   // Passport Set up
+  console.log("pocket key " + process.env.POCKET_CONSUMER_KEY);
+  
   var pocketStrategy = new _passportPocket2.default({
-    consumerKey: POCKET_CONSUMER_KEY,
+    consumerKey: process.env.POCKET_CONSUMER_KEY,
     callbackURL: "http://127.0.0.1:3001/auth/pocket/callback"
   }, function (username, accessToken, done) {
     process.nextTick(function () {
@@ -798,7 +809,7 @@ module.exports =
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _nodeFetch = __webpack_require__(120);
+  var _nodeFetch = __webpack_require__(122);
   
   var _nodeFetch2 = _interopRequireDefault(_nodeFetch);
   
@@ -1683,7 +1694,7 @@ module.exports =
   
   var _react2 = _interopRequireDefault(_react);
   
-  var _emptyFunction = __webpack_require__(112);
+  var _emptyFunction = __webpack_require__(114);
   
   var _emptyFunction2 = _interopRequireDefault(_emptyFunction);
   
@@ -2385,15 +2396,15 @@ module.exports =
     value: true
   });
   
-  var _createBrowserHistory = __webpack_require__(114);
+  var _createBrowserHistory = __webpack_require__(116);
   
   var _createBrowserHistory2 = _interopRequireDefault(_createBrowserHistory);
   
-  var _createMemoryHistory = __webpack_require__(115);
+  var _createMemoryHistory = __webpack_require__(117);
   
   var _createMemoryHistory2 = _interopRequireDefault(_createMemoryHistory);
   
-  var _useQueries = __webpack_require__(116);
+  var _useQueries = __webpack_require__(118);
   
   var _useQueries2 = _interopRequireDefault(_useQueries);
   
@@ -2420,7 +2431,7 @@ module.exports =
     value: true
   });
   
-  var _pg = __webpack_require__(123);
+  var _pg = __webpack_require__(126);
   
   var _pg2 = _interopRequireDefault(_pg);
   
@@ -2537,11 +2548,11 @@ module.exports =
   
   var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
   
-  var _passport = __webpack_require__(121);
+  var _passport = __webpack_require__(123);
   
   var _passport2 = _interopRequireDefault(_passport);
   
-  var _passportFacebook = __webpack_require__(122);
+  var _passportFacebook = __webpack_require__(124);
   
   var _db = __webpack_require__(38);
   
@@ -2900,15 +2911,15 @@ module.exports =
   
   var _bluebird2 = _interopRequireDefault(_bluebird);
   
-  var _jade = __webpack_require__(117);
+  var _jade = __webpack_require__(119);
   
   var _jade2 = _interopRequireDefault(_jade);
   
-  var _frontMatter = __webpack_require__(113);
+  var _frontMatter = __webpack_require__(115);
   
   var _frontMatter2 = _interopRequireDefault(_frontMatter);
   
-  var _markdownIt = __webpack_require__(119);
+  var _markdownIt = __webpack_require__(121);
   
   var _markdownIt2 = _interopRequireDefault(_markdownIt);
   
@@ -6307,115 +6318,121 @@ module.exports =
 /* 109 */
 /***/ function(module, exports) {
 
-  module.exports = require("express");
+  module.exports = require("dotenv");
 
 /***/ },
 /* 110 */
 /***/ function(module, exports) {
 
-  module.exports = require("express-graphql");
+  module.exports = require("express");
 
 /***/ },
 /* 111 */
 /***/ function(module, exports) {
 
-  module.exports = require("express-jwt");
+  module.exports = require("express-graphql");
 
 /***/ },
 /* 112 */
 /***/ function(module, exports) {
 
-  module.exports = require("fbjs/lib/emptyFunction");
+  module.exports = require("express-jwt");
 
 /***/ },
 /* 113 */
 /***/ function(module, exports) {
 
-  module.exports = require("front-matter");
+  module.exports = require("express-session");
 
 /***/ },
 /* 114 */
 /***/ function(module, exports) {
 
-  module.exports = require("history/lib/createBrowserHistory");
+  module.exports = require("fbjs/lib/emptyFunction");
 
 /***/ },
 /* 115 */
 /***/ function(module, exports) {
 
-  module.exports = require("history/lib/createMemoryHistory");
+  module.exports = require("front-matter");
 
 /***/ },
 /* 116 */
 /***/ function(module, exports) {
 
-  module.exports = require("history/lib/useQueries");
+  module.exports = require("history/lib/createBrowserHistory");
 
 /***/ },
 /* 117 */
 /***/ function(module, exports) {
 
-  module.exports = require("jade");
+  module.exports = require("history/lib/createMemoryHistory");
 
 /***/ },
 /* 118 */
 /***/ function(module, exports) {
 
-  module.exports = require("jsonwebtoken");
+  module.exports = require("history/lib/useQueries");
 
 /***/ },
 /* 119 */
 /***/ function(module, exports) {
 
-  module.exports = require("markdown-it");
+  module.exports = require("jade");
 
 /***/ },
 /* 120 */
 /***/ function(module, exports) {
 
-  module.exports = require("node-fetch");
+  module.exports = require("jsonwebtoken");
 
 /***/ },
 /* 121 */
 /***/ function(module, exports) {
 
-  module.exports = require("passport");
+  module.exports = require("markdown-it");
 
 /***/ },
 /* 122 */
 /***/ function(module, exports) {
 
-  module.exports = require("passport-facebook");
+  module.exports = require("node-fetch");
 
 /***/ },
 /* 123 */
 /***/ function(module, exports) {
 
-  module.exports = require("pg");
+  module.exports = require("passport");
 
 /***/ },
 /* 124 */
 /***/ function(module, exports) {
 
-  module.exports = require("pretty-error");
+  module.exports = require("passport-facebook");
 
 /***/ },
 /* 125 */
 /***/ function(module, exports) {
 
-  module.exports = require("react-dom/server");
+  module.exports = require("passport-pocket");
 
 /***/ },
 /* 126 */
 /***/ function(module, exports) {
 
-  module.exports = require("passport-pocket");
+  module.exports = require("pg");
 
 /***/ },
 /* 127 */
 /***/ function(module, exports) {
 
-  module.exports = require("express-session");
+  module.exports = require("pretty-error");
+
+/***/ },
+/* 128 */
+/***/ function(module, exports) {
+
+  module.exports = require("react-dom/server");
 
 /***/ }
 /******/ ]);
