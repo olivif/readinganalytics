@@ -17,7 +17,7 @@ import expressGraphQL from 'express-graphql';
 import jwt from 'jsonwebtoken';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
-import passport from './core/passport';
+import passport from 'passport';
 import session from 'express-session';
 import schema from './data/schema';
 import Router from './routes';
@@ -104,19 +104,6 @@ server.use(expressJwt({
   getToken: req => req.cookies.id_token,
   /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
 }));
-
-server.get('/login/facebook',
-  passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
-);
-server.get('/login/facebook/return',
-  passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-  (req, res) => {
-    const expiresIn = 60 * 60 * 24 * 180; // 180 days
-    const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
-    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-    res.redirect('/');
-  }
-);
 
 //
 // Register API middleware
