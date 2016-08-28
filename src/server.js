@@ -27,11 +27,15 @@ import { port, auth, analytics } from './config';
 import PocketStrategy from 'passport-pocket';
 import dotenv from 'dotenv';
 
+import pocketClient from './core/pocketClient';
+
 const server = global.server = express();
 
 // Env setup
 var envPath = path.join(__dirname, '..', ".env");
 dotenv.config({ path:envPath });
+
+const pocketConsumerKey = process.env.POCKET_CONSUMER_KEY;
 
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
@@ -63,10 +67,8 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
-console.log("pocket key " + process.env.POCKET_CONSUMER_KEY);
-
 var pocketStrategy = new PocketStrategy({
-  consumerKey: process.env.POCKET_CONSUMER_KEY,
+  consumerKey: pocketConsumerKey,
   callbackURL: "http://localhost:3001/auth/pocket/callback"
 }, function (username, accessToken, done) {
   process.nextTick(function () {
@@ -151,6 +153,9 @@ server.get('*', async (req, res, next) => {
       data.body = ReactDOM.renderToString(component);
       data.css = css.join('');
     });
+
+    var user = res.req.user;
+    pocketClient.getArchive(pocketConsumerKey, user.accessToken);
 
     res.status(statusCode);
     res.send(template(data));
