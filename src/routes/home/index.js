@@ -14,10 +14,10 @@ import fetch from '../../core/fetch';
 export const path = '/';
 export const action = async (state) => {
   var data = [
-    {title: "x"},
-    {title: "y"},
-    {title: "z"}
+    {title: "a"},
+    {title: "b"},
+    {title: "c"}
   ];
-  state.context.onSetTitle('React.js Starter Kit');
+  state.context.onSetTitle('Reading Analytics');
   return <Home pocket={data} />;
 };
