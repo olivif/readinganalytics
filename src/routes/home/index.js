@@ -14,9 +14,9 @@ import fetch from '../../core/fetch';
 export const path = '/';
 export const action = async (state) => {
 
-  const response = await fetch('/graphql?query={pocket{title}}');
+  const response = await fetch('/graphql?query={readItems{title}}');
   const { data } = await response.json();
 
   state.context.onSetTitle('Reading Analytics');
-  return <Home pocket={data.pocket} />;
+  return <Home readItems={data.readItems} />;
 };

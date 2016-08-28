@@ -4,11 +4,11 @@ import {
   GraphQLNonNull as NonNull,
 } from 'graphql';
 
-const PocketItemType = new ObjectType({
-  name: 'PocketItem',
+const ReadItemType = new ObjectType({
+  name: 'ReadItem',
   fields: {
     title: { type: new NonNull(StringType) }
   },
 });
 
-export default PocketItemType;
+export default ReadItemType;

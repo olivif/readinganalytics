@@ -11,15 +11,15 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Home.scss';
 
-function Home({ pocket }) {
+function Home({ readItems }) {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        <h1 className={s.title}>Pocket items</h1>
-        <ul className={s.pocket}>
-          {pocket.map((item, index) => (
-            <li key={index} className={s.pocketItem}>
-              <a href={item.link} className={s.pocketTitle}>{item.title}</a>
+        <h1 className={s.title}>Read items</h1>
+        <ul className={s.readItems}>
+          {readItems.map((item, index) => (
+            <li key={index} className={s.readItem}>
+              <a href={item.link} className={s.readItemTitle}>{item.title}</a>
             </li>
           )) }
         </ul>
@@ -29,7 +29,7 @@ function Home({ pocket }) {
 }
 
 Home.propTypes = {
-  pocket: PropTypes.arrayOf(PropTypes.shape({
+  readItems: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired
   })).isRequired,
 };

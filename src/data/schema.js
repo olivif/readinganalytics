@@ -13,14 +13,14 @@ import {
 } from 'graphql';
 
 import news from './queries/news';
-import pocket from './queries/pocket';
+import readItems from './queries/readItems';
 
 const schema = new Schema({
   query: new ObjectType({
     name: 'Query',
     fields: {
       news,
-      pocket
+      readItems
     },
   }),
 });

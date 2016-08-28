@@ -1,14 +1,14 @@
 
 import { GraphQLList as List } from 'graphql';
 import fetch from '../../core/fetch';
-import PocketItemType from '../types/PocketItemType';
+import ReadItemType from '../types/ReadItemType';
 
 import pocketClient from '../../core/pocketClient';
 
 let items = [];
 
-const pocket = {
-    type: new List(PocketItemType),
+const readItems = {
+    type: new List(ReadItemType),
     resolve() {
 
         //pocketClient.getArchive(pocketConsumerKey, user.accessToken);
@@ -21,4 +21,4 @@ const pocket = {
     },
 };
 
-export default pocket;
+export default readItems;
