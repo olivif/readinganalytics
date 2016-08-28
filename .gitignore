@@ -1,8 +1,15 @@
 #node 
+
 node_modules
 
+
+
 #env
+
 .env
 
+
+
 #build
+
 build

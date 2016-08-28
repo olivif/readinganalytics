@@ -155,6 +155,13 @@ server.get('*', async (req, res, next) => {
     });
 
     var user = res.req.user;
+
+    if (user == null) {
+      res.status(401);
+      res.send(template({body:"Unauthorized"}));
+      return;
+    }
+
     pocketClient.getArchive(pocketConsumerKey, user.accessToken);
 
     res.status(statusCode);

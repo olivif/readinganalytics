@@ -11,21 +11,17 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Home.scss';
 
-function Home({ news }) {
+function Home({ pocket }) {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        <h1 className={s.title}>React.js News</h1>
-        <ul className={s.news}>
-          {news.map((item, index) => (
-            <li key={index} className={s.newsItem}>
-              <a href={item.link} className={s.newsTitle}>{item.title}</a>
-              <span
-                className={s.newsDesc}
-                dangerouslySetInnerHTML={{ __html: item.contentSnippet }}
-              />
+        <h1 className={s.title}>Pocket items</h1>
+        <ul className={s.pocket}>
+          {pocket.map((item, index) => (
+            <li key={index} className={s.pocketItem}>
+              <a href={item.link} className={s.pocketTitle}>{item.title}</a>
             </li>
-          ))}
+          )) }
         </ul>
       </div>
     </div>
@@ -33,10 +29,8 @@ function Home({ news }) {
 }
 
 Home.propTypes = {
-  news: PropTypes.arrayOf(PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
-    contentSnippet: PropTypes.string,
+  pocket: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired
   })).isRequired,
 };
 
