@@ -12,7 +12,6 @@ import Router from 'react-routing/src/Router';
 import fetch from './core/fetch';
 import App from './components/App';
 import ContentPage from './components/ContentPage';
-import NotFoundPage from './components/NotFoundPage';
 
 const routes = [
   require('./routes/home'),
