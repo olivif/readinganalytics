@@ -35,6 +35,7 @@ const server = global.server = express();
 var envPath = path.join(__dirname, '..', ".env");
 dotenv.config({ path:envPath });
 
+// Constants
 const pocketConsumerKey = process.env.POCKET_CONSUMER_KEY;
 
 //
@@ -67,6 +68,7 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
+// Pocket strategy
 var pocketStrategy = new PocketStrategy({
   consumerKey: pocketConsumerKey,
   callbackURL: "http://localhost:3001/auth/pocket/callback"
@@ -93,17 +95,6 @@ server.get('/auth/pocket/callback', passport.authenticate('pocket', { failureRed
   function (req, res) {
     res.redirect('/');
   });
-
-//
-// Authentication
-// -----------------------------------------------------------------------------
-server.use(expressJwt({
-  secret: auth.jwt.secret,
-  credentialsRequired: false,
-  /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
-  getToken: req => req.cookies.id_token,
-  /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
-}));
 
 //
 // Register API middleware
