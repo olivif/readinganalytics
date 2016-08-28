@@ -15,9 +15,6 @@ import ContentPage from './components/ContentPage';
 
 const routes = [
   require('./routes/home'),
-  require('./routes/contact'),
-  require('./routes/login'),
-  require('./routes/register'),
 ];
 
 const router = new Router(on => {

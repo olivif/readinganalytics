@@ -17,7 +17,7 @@ import expressGraphQL from 'express-graphql';
 import jwt from 'jsonwebtoken';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
-import passport from './core/passport';
+import passport from 'passport';
 import session from 'express-session';
 import schema from './data/schema';
 import Router from './routes';
@@ -35,6 +35,7 @@ const server = global.server = express();
 var envPath = path.join(__dirname, '..', ".env");
 dotenv.config({ path:envPath });
 
+// Constants
 const pocketConsumerKey = process.env.POCKET_CONSUMER_KEY;
 
 //
@@ -67,6 +68,7 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
+// Pocket strategy
 var pocketStrategy = new PocketStrategy({
   consumerKey: pocketConsumerKey,
   callbackURL: "http://localhost:3001/auth/pocket/callback"
@@ -93,30 +95,6 @@ server.get('/auth/pocket/callback', passport.authenticate('pocket', { failureRed
   function (req, res) {
     res.redirect('/');
   });
-
-//
-// Authentication
-// -----------------------------------------------------------------------------
-server.use(expressJwt({
-  secret: auth.jwt.secret,
-  credentialsRequired: false,
-  /* jscs:disable requireCamelCaseOrUpperCaseIdentifiers */
-  getToken: req => req.cookies.id_token,
-  /* jscs:enable requireCamelCaseOrUpperCaseIdentifiers */
-}));
-
-server.get('/login/facebook',
-  passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
-);
-server.get('/login/facebook/return',
-  passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
-  (req, res) => {
-    const expiresIn = 60 * 60 * 24 * 180; // 180 days
-    const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
-    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
-    res.redirect('/');
-  }
-);
 
 //
 // Register API middleware

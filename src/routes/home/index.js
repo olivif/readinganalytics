@@ -13,11 +13,10 @@ import fetch from '../../core/fetch';
 
 export const path = '/';
 export const action = async (state) => {
-  var data = [
-    {title: "x"},
-    {title: "y"},
-    {title: "z"}
-  ];
-  state.context.onSetTitle('React.js Starter Kit');
-  return <Home pocket={data} />;
+
+  const response = await fetch('/graphql?query={pocket{title}}');
+  const { data } = await response.json();
+
+  state.context.onSetTitle('Reading Analytics');
+  return <Home pocket={data.pocket} />;
 };

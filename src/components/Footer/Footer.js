@@ -15,7 +15,7 @@ function Footer() {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        <span className={s.text}>© Reading Analyrics</span>
+        <span className={s.text}>© Reading Analytics</span>
       </div>
     </div>
   );
