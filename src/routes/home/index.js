@@ -13,11 +13,10 @@ import fetch from '../../core/fetch';
 
 export const path = '/';
 export const action = async (state) => {
-  var data = [
-    {title: "a"},
-    {title: "b"},
-    {title: "c"}
-  ];
+
+  const response = await fetch('/graphql?query={pocket{title}}');
+  const { data } = await response.json();
+
   state.context.onSetTitle('Reading Analytics');
-  return <Home pocket={data} />;
+  return <Home pocket={data.pocket} />;
 };
