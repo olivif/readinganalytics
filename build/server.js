@@ -2115,20 +2115,7 @@ module.exports =
   
   var _Footer2 = _interopRequireDefault(_Footer);
   
-  var _Link = __webpack_require__(14);
-  
-  var _Link2 = _interopRequireDefault(_Link);
-  
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-  
-  /**
-   * React Starter Kit (https://www.reactstarterkit.com/)
-   *
-   * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE.txt file in the root directory of this source tree.
-   */
   
   function Footer() {
     return _react2.default.createElement(
@@ -2140,41 +2127,18 @@ module.exports =
         _react2.default.createElement(
           'span',
           { className: _Footer2.default.text },
-          '© Your Company'
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: _Footer2.default.spacer },
-          '·'
-        ),
-        _react2.default.createElement(
-          _Link2.default,
-          { className: _Footer2.default.link, to: '/' },
-          'Home'
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: _Footer2.default.spacer },
-          '·'
-        ),
-        _react2.default.createElement(
-          _Link2.default,
-          { className: _Footer2.default.link, to: '/privacy' },
-          'Privacy'
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: _Footer2.default.spacer },
-          '·'
-        ),
-        _react2.default.createElement(
-          _Link2.default,
-          { className: _Footer2.default.link, to: '/not-found' },
-          'Not Found'
+          '© Reading Analyrics'
         )
       )
     );
-  }
+  } /**
+     * React Starter Kit (https://www.reactstarterkit.com/)
+     *
+     * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+     *
+     * This source code is licensed under the MIT license found in the
+     * LICENSE.txt file in the root directory of this source tree.
+     */
   
   exports.default = (0, _withStyles2.default)(Footer, _Footer2.default);
 
