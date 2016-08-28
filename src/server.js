@@ -22,21 +22,12 @@ import session from 'express-session';
 import schema from './data/schema';
 import Router from './routes';
 import assets from './assets';
-import { port, auth, analytics } from './config';
 
 import PocketStrategy from 'passport-pocket';
-import dotenv from 'dotenv';
 
-import pocketClient from './core/pocketClient';
+import { port, auth, analytics, pocketConsumerKey } from './config';
 
 const server = global.server = express();
-
-// Env setup
-var envPath = path.join(__dirname, '..', ".env");
-dotenv.config({ path:envPath });
-
-// Constants
-const pocketConsumerKey = process.env.POCKET_CONSUMER_KEY;
 
 //
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
@@ -139,8 +130,6 @@ server.get('*', async (req, res, next) => {
       res.send(template({body:"Unauthorized"}));
       return;
     }
-
-    pocketClient.getArchive(pocketConsumerKey, user.accessToken);
 
     res.status(statusCode);
     res.send(template(data));
